@@ -1,3 +1,2 @@
-#Rursovik of Streh
-it will be funny
-
+# Matrix_calculater-kursovik_on_Si-
+calculator wich works with matrix
