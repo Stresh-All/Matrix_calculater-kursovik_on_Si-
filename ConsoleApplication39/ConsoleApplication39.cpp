@@ -348,6 +348,25 @@ void Render()
 	printf(" (Dmg: %i)               ", GetWeaponDamage(unitsData[HeroIndex].weapon));
 
 
+
+
+	// Boss 1 info
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Red);
+	printf("\n\n\tHP: ");
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_White);
+	printf("%i", unitsData[BossIndex1].health);
+
+
+	// Boss 1 weapon
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Cyan);
+	printf("     Weapon: ");
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_White);
+	printf("%s", GetWeaponName(unitsData[BossIndex1].weapon));
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Gray);
+	printf(" (Dmg: %i)               ", GetWeaponDamage(unitsData[BossIndex1].weapon));
+
+
+
 	// рисование уровня
 	printf("\n\n\t");
 	for (int r = 0; r < rowsCount1; r++)
@@ -438,7 +457,6 @@ void MoveUnitTo(UnitData* pointerToUnitData, int row, int column)
 		break;
 	}
 	}
-
 
 	// Только действия hero
 	if (pointerToUnitData->type == UnitHero)
