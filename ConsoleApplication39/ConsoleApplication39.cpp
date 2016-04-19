@@ -30,9 +30,16 @@ int BossIndex2 = 0;
 int BossIndex3 = 0;
 int BossIndex4 = 0;
 
+//Update 1.1.3
+char tempBuffer[256];
+char statusMessage[256];
+
 
 void SetupSystem()
 {
+	//new
+	statusMessage[0] = 0;
+
 	srand(time(0));
 
 	consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -378,7 +385,7 @@ void Render()
 				 char cellSymbol = levelData[r][c];
 
 		     	 char renderCellSymbol = GetRenderCellSymbol(cellSymbol);
-				ConsoleColor cellColor = GetRenderCellSymbolColor(cellSymbol);
+				 ConsoleColor cellColor = GetRenderCellSymbolColor(cellSymbol);
 
 				SetConsoleTextAttribute(consoleHandle, cellColor);
 				printf("%c", renderCellSymbol);
@@ -391,6 +398,18 @@ void Render()
 		}
 		printf("\n\t");
 	}
+	//new
+	// Fill status message with spaces
+	while (strlen(statusMessage) < 160)
+	{
+		strcat_s(statusMessage, " ");
+	}
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Green);
+	printf("\n\n\t%s", statusMessage);
+
+	// Clear status message
+	statusMessage[0] = 0;
+	//end new
 }
 
 void MoveUnitTo(UnitData* pointerToUnitData, int row, int column)
@@ -443,13 +462,28 @@ void MoveUnitTo(UnitData* pointerToUnitData, int row, int column)
 					int damage = GetWeaponDamage(pointerToUnitData->weapon);
 					unitsData[i].health = unitsData[i].health - damage;
 
+
+					//----------------------------------------------------
+					// Add to status message
+					sprintf_s(tempBuffer, " %s dealt %i damage to %s.", GetUnitName(pointerToUnitData->type), damage, GetUnitName(_UnitType));
+					strcat_s(statusMessage, tempBuffer);
+					//-----------------------------------------------------
+					
+
 					// В случае смерти
 					if (unitsData[i].health <= 0.0f)
 					{
 						levelData[row][column] = SymbolEmpty;
+
+						//----------------------------------------------------------
+						// Add to status message
+						sprintf_s(tempBuffer, " %s died.", GetUnitName(_UnitType), damage, GetUnitName(_UnitType));
+						strcat_s(statusMessage, tempBuffer);
+						//-------------------------------------------------------------
+
 					}
 					
-					//
+					
 					break;
 				}
 			}
@@ -481,6 +515,13 @@ void MoveUnitTo(UnitData* pointerToUnitData, int row, int column)
 			{
 				unitsData[HeroIndex].weapon = weaponType;
 			}
+
+			//-------------------------------------------------------------------------
+			// Add to status message
+			sprintf_s(tempBuffer, " %s found %s.", GetUnitName(pointerToUnitData->type), GetWeaponName(weaponType));
+			strcat_s(statusMessage, tempBuffer);
+			//-------------------------------------------------------------------------
+
 			break;
 		}
 

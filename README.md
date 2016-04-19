@@ -1,1 +1,2 @@
-GAme of STRESh
+Alexander Streshinski
+Game of Stresh
