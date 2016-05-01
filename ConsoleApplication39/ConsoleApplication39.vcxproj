@@ -145,6 +145,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConsoleApplication39.h" />
     <ClInclude Include="consoleColor.h" />
     <ClInclude Include="level.h" />
     <ClInclude Include="WeaponType.h" />

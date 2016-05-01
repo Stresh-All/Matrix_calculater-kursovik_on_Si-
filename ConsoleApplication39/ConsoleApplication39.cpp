@@ -12,7 +12,7 @@
 #include "unitType.h"
 #include "unitData.h"
 
-
+int Key = 0;
 const int maxUnitsCount = 40;
 
 HANDLE consoleHandle = 0;
@@ -33,6 +33,11 @@ int BossIndex4 = 0;
 //Update 1.1.3
 char tempBuffer[256];
 char statusMessage[256];
+
+//--------------------------------------------------------------------------------------------------------------------------
+//MENU
+
+//--------------------------------------------------------------------------------------------------------------------------
 
 
 void SetupSystem()
@@ -474,6 +479,22 @@ void MoveUnitTo(UnitData* pointerToUnitData, int row, int column)
 					if (unitsData[i].health <= 0.0f)
 					{
 						levelData[row][column] = SymbolEmpty;
+						switch (rand() % 6)
+						{
+						case 0: levelData[row][column] = SymbolHeart;
+							break;
+						case 1: levelData[row][column] = SymbolSaber;
+							break;
+						case 2: levelData[row][column] = SymbolClub;
+							break;
+						case 3: levelData[row][column] = SymbolEmpty;
+							break;
+						case 4: levelData[row][column] = SymbolFalx;
+							break;
+						case 5: levelData[row][column] = SymbolEmpty;
+							break;
+						}
+
 
 						//----------------------------------------------------------
 						// Add to status message
@@ -482,8 +503,26 @@ void MoveUnitTo(UnitData* pointerToUnitData, int row, int column)
 						//-------------------------------------------------------------
 
 					}
-					
-					
+					if (unitsData[BossIndex1].health < 0.0f)
+					{
+						levelData[row][column] = SymbolMMA;
+						unitsData[BossIndex1].health = 0;
+					}
+					if (unitsData[BossIndex2].health < 0.0f)
+					{
+						levelData[row][column] = SymbolWorkBook;
+						unitsData[BossIndex2].health = 0;
+					}
+					if (unitsData[BossIndex3].health < 0.0f)
+					{
+						levelData[row][column] = SymbolCi;
+						unitsData[BossIndex3].health = 0;
+					}
+					if (unitsData[BossIndex4].health < 0.0f)
+					{
+						levelData[row][column] = SymbolS;
+						unitsData[BossIndex4].health = 0;
+					}
 					break;
 				}
 			}
@@ -504,6 +543,10 @@ void MoveUnitTo(UnitData* pointerToUnitData, int row, int column)
 		case SymbolSaber:
 
 		case SymbolFalx:
+		case SymbolMMA:
+		case SymbolWorkBook:
+		case SymbolCi:
+		case SymbolS:
 		case SymbolSword:
 		case SymbolWhip:
 		case SymbolMoustache:
@@ -511,7 +554,7 @@ void MoveUnitTo(UnitData* pointerToUnitData, int row, int column)
 			canMoveToCell = true;
 
 			WeaponType weaponType = GetWeaponTypeFromCell(_CellSymbol);
-			if (unitsData[HeroIndex].weapon < weaponType)
+			if (unitsData[HeroIndex].weapon <= weaponType)
 			{
 				unitsData[HeroIndex].weapon = weaponType;
 			}
@@ -663,7 +706,7 @@ void Shutdown()
 	_getch();
 }
 
-int main()
+void Level_1()
 {
 	SetupSystem();
 	Initialize();
@@ -673,8 +716,10 @@ int main()
 		Update();
 	} while (GameActive);
 	Shutdown();
+}
 
-/*-----------------------Level 2-------------------------------------------------------------------------*/
+void Level_2()
+{
 	GameActive = true;
 	SetupSystem();
 	Initialize2();
@@ -684,9 +729,10 @@ int main()
 		Update();
 	} while (GameActive);
 	Shutdown();
+}
 
-	/*--------------------Level 3-----------------------------------------------------------------------*/
-
+void Level_3()
+{
 	GameActive = true;
 	SetupSystem();
 	Initialize3();
@@ -696,5 +742,20 @@ int main()
 		Update();
 	} while (GameActive);
 	Shutdown();
+}
+
+/*---------------------------------MAIN----------------------------------------------------------------------------------*/
+int main()
+{
+	Level_1();
+
+/*--------------------------------------Level 2-------------------------------------------------------------------------*/
+	
+	Level_2();
+
+/*--------------------Level 3---------------------------------------------------------------------------------------*/
+
+	Level_3();
+
 	return 0;
 }

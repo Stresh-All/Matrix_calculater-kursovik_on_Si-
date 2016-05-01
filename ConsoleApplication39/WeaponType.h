@@ -67,21 +67,21 @@ int GetWeaponDamage(WeaponType weaponType)
 {
 	switch (weaponType)
 	{
-	case WeaponFist:           return 6;
-	case WeapoòStick:          return 16;
-	case WeaponClub:           return 24;
+	case WeaponFist:           return 7;
+	case WeapoòStick:          return 17;
+	case WeaponClub:           return 26;
 	case WeaponSpear:          return 32;
-	case WeaponSaber:          return 40;
+	case WeaponSaber:          return 41;
 		//Update
-	case WeaponSword:         return 60;
-	case WeaponWhip:          return 45;
-	case WeaponMoustache:     return 500;
-	case WeaponFalx:          return 30;
+	case WeaponSword:         return 59;
+	case WeaponWhip:          return 44;
+	case WeaponMoustache:     return 499;
+	case WeaponFalx:          return 29;
 
-	case WeaponMMA:           return 50;
-	case WeaponCi:            return 60;
-	case WeaponSvito:         return 60;
-	case WeaponWorkBook:      return 45;
+	case WeaponMMA:           return 49;
+	case WeaponCi:            return 59;
+	case WeaponSvito:         return 59;
+	case WeaponWorkBook:      return 44;
 	}
 
 	return 0;
