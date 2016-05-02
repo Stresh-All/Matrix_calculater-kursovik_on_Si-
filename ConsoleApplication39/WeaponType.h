@@ -1,6 +1,6 @@
 #pragma once
 #include "level.h"
-
+#include <time.h>
 
 enum WeaponType
 {

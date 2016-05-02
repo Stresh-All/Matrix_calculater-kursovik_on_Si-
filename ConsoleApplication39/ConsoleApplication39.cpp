@@ -12,6 +12,7 @@
 #include "unitType.h"
 #include "unitData.h"
 
+
 int Key = 0;
 const int maxUnitsCount = 40;
 
@@ -21,7 +22,6 @@ bool GameActive = true;
 char levelData[rowsCount1][columsCount1];
 bool fogOfWar[rowsCount1][columsCount1] ;
 
-
 UnitData unitsData[maxUnitsCount];
 int unitsCount = 0;
 int HeroIndex = 0;
@@ -30,7 +30,6 @@ int BossIndex2 = 0;
 int BossIndex3 = 0;
 int BossIndex4 = 0;
 
-//Update 1.1.3
 char tempBuffer[256];
 char statusMessage[256];
 
@@ -38,7 +37,6 @@ char statusMessage[256];
 //MENU
 
 //--------------------------------------------------------------------------------------------------------------------------
-
 
 void SetupSystem()
 {
@@ -67,7 +65,9 @@ void RevealFogOfWar(int row, int column)
 	}
 }
 
-void Initialize()
+
+/*------------------------------------------------------LEVEL 1---------------------------------------------------------------*/
+void Initialize_1()
 {
 	unitsCount = 0;
 
@@ -77,7 +77,7 @@ void Initialize()
 		{
 			fogOfWar[r][c] = true;
 
-		    char cellSymbol = levelData1[r][c];
+			char cellSymbol = levelData1[r][c];
 
 			levelData[r][c] = cellSymbol;
 			UnitType unitType = GetUnitTypeFromCell(cellSymbol);
@@ -94,6 +94,7 @@ void Initialize()
 				unitsCount++;
 				break;
 
+				//заполнение данных NPC and Hero
 			case SymbolBoos1:
 				BossIndex1 = unitsCount;
 				unitsData[unitsCount].type = unitType;
@@ -134,12 +135,10 @@ void Initialize()
 				unitsCount++;
 				break;
 
-				//заполнение данных NPC and Hero
 			case SymbolOrc:
 			case SymbolSkeleton:
 			case SymbolGlee:
 			{
-				UnitType unitType = GetUnitTypeFromCell(cellSymbol);
 				unitsData[unitsCount].type = unitType;
 				unitsData[unitsCount].row = r;
 				unitsData[unitsCount].column = c;
@@ -156,6 +155,88 @@ void Initialize()
 	RevealFogOfWar(unitsData[HeroIndex].row, unitsData[HeroIndex].column);
 }
 
+void Render_1()
+{
+	// курсор на 0 0
+	COORD cursorCoord;
+	cursorCoord.X = 0;
+	cursorCoord.Y = 0;
+	SetConsoleCursorPosition(consoleHandle, cursorCoord);
+
+
+	// Вступление
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Green);
+	printf("\n\tGAME OF STRESH");
+
+	// Hero info
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Red);
+	printf("\n\n\tHP: ");
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_White);
+	printf("%i", unitsData[HeroIndex].health);
+
+	// Hero Weapon
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Cyan);
+	printf("     Weapon: ");
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_White);
+	printf("%s", GetWeaponName(unitsData[HeroIndex].weapon));
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Gray);
+	printf(" (Dmg: %i - %i)               ", GetWeaponDamage(unitsData[HeroIndex].weapon), GetWeaponDamage(unitsData[HeroIndex].weapon) + 7);
+
+	// Boss 1 info
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Red);
+	printf("\n\n\tHP: ");
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_White);
+	printf("%i - %i", unitsData[BossIndex1].health, unitsData[BossIndex1].health + 7);
+
+	// Boss 1 weapon
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Cyan);
+	printf("     Weapon: ");
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_White);
+	printf("%s", GetWeaponName(unitsData[BossIndex1].weapon));
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Gray);
+	printf(" (Dmg: %i)               ", GetWeaponDamage(unitsData[BossIndex1].weapon));
+
+	// рисование уровня
+	printf("\n\n\t");
+	for (int r = 0; r < rowsCount1; r++)
+	{
+		for (int c = 0; c < columsCount1; c++)
+		{
+			if (fogOfWar[r][c] == false)
+			{
+				char cellSymbol = levelData[r][c];
+
+				char renderCellSymbol = GetRenderCellSymbol(cellSymbol);
+				ConsoleColor cellColor = GetRenderCellSymbolColor(cellSymbol);
+
+				SetConsoleTextAttribute(consoleHandle, cellColor);
+				printf("%c", renderCellSymbol);
+			}
+			else
+			{
+				SetConsoleTextAttribute(consoleHandle, fogOfWarRenderColor);
+				printf("%c", fogOfWarRenderSymbol);
+			}
+		}
+		printf("\n\t");
+	}
+	//new
+	// Fill status message with spaces
+	while (strlen(statusMessage) < 160)
+	{
+		strcat_s(statusMessage, " ");
+	}
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Green);
+	printf("\n\n\t%s", statusMessage);
+
+	// Clear status message
+	statusMessage[0] = 0;
+	//end new
+}
+/*-----------------------------------------------END OF LEVEL 1--------------------------------------------------------------*/
+
+
+/*-------------------------------------------LEVEL 2 ------------------------------------------------------------------------*/
 void Initialize2()
 {
 	unitsCount = 0;
@@ -244,6 +325,89 @@ void Initialize2()
 	RevealFogOfWar(unitsData[HeroIndex].row, unitsData[HeroIndex].column);
 }
 
+void Render_2()
+{
+	// курсор на 0 0
+	COORD cursorCoord;
+	cursorCoord.X = 0;
+	cursorCoord.Y = 0;
+	SetConsoleCursorPosition(consoleHandle, cursorCoord);
+
+
+	// Вступление
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Green);
+	printf("\n\tGAME OF STRESH");
+
+	// Hero info
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Red);
+	printf("\n\n\tHP: ");
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_White);
+	printf("%i", unitsData[HeroIndex].health);
+
+
+	// Hero Weapon
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Cyan);
+	printf("     Weapon: ");
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_White);
+	printf("%s", GetWeaponName(unitsData[HeroIndex].weapon));
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Gray);
+	printf(" (Dmg: %i - %i)               ", GetWeaponDamage(unitsData[HeroIndex].weapon), GetWeaponDamage(unitsData[HeroIndex].weapon) + 7);
+
+	// Boss 2 info
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Red);
+	printf("\n\n\tHP: ");
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_White);
+	printf("%i", unitsData[BossIndex2].health);
+
+	// Boss 2 weapon
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Cyan);
+	printf("     Weapon: ");
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_White);
+	printf("%s", GetWeaponName(unitsData[BossIndex2].weapon));
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Gray);
+	printf("%i - %i", unitsData[BossIndex1].health, unitsData[BossIndex2].health + 7);
+
+	// рисование уровня
+	printf("\n\n\t");
+	for (int r = 0; r < rowsCount1; r++)
+	{
+		for (int c = 0; c < columsCount1; c++)
+		{
+			if (fogOfWar[r][c] == false)
+			{
+				char cellSymbol = levelData[r][c];
+
+				char renderCellSymbol = GetRenderCellSymbol(cellSymbol);
+				ConsoleColor cellColor = GetRenderCellSymbolColor(cellSymbol);
+
+				SetConsoleTextAttribute(consoleHandle, cellColor);
+				printf("%c", renderCellSymbol);
+			}
+			else
+			{
+				SetConsoleTextAttribute(consoleHandle, fogOfWarRenderColor);
+				printf("%c", fogOfWarRenderSymbol);
+			}
+		}
+		printf("\n\t");
+	}
+	//new
+	// Fill status message with spaces
+	while (strlen(statusMessage) < 160)
+	{
+		strcat_s(statusMessage, " ");
+	}
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Green);
+	printf("\n\n\t%s", statusMessage);
+
+	// Clear status message
+	statusMessage[0] = 0;
+	//end new
+}
+/*------------------------------END OF LEVEL 2-------------------------------------------------------------------------------*/
+
+
+/*-------------------------------------------LEVEL 3-------------------------------------------------------------------------*/
 void Initialize3()
 {
 	unitsCount = 0;
@@ -331,14 +495,13 @@ void Initialize3()
 	RevealFogOfWar(unitsData[HeroIndex].row, unitsData[HeroIndex].column);
 }
 
-void Render()
+void Render_3()
 {
 	// курсор на 0 0
 	COORD cursorCoord;
 	cursorCoord.X = 0;
 	cursorCoord.Y = 0;
 	SetConsoleCursorPosition(consoleHandle, cursorCoord);
-
 
 	// Вступление
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Green);
@@ -350,34 +513,28 @@ void Render()
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_White);
 	printf("%i", unitsData[HeroIndex].health);
 
-
 	// Hero Weapon
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Cyan);
 	printf("     Weapon: ");
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_White);
 	printf("%s", GetWeaponName(unitsData[HeroIndex].weapon));
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Gray);
-	printf(" (Dmg: %i)               ", GetWeaponDamage(unitsData[HeroIndex].weapon));
+	printf(" (Dmg: %i - %i)               ", GetWeaponDamage(unitsData[HeroIndex].weapon), GetWeaponDamage(unitsData[HeroIndex].weapon) + 7);
 
-
-
-
-	// Boss 1 info
+	// Boss 3 info
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Red);
 	printf("\n\n\tHP: ");
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_White);
-	printf("%i", unitsData[BossIndex1].health);
+	printf("%i", unitsData[BossIndex3].health);
 
 
-	// Boss 1 weapon
+	// Boss 2 weapon
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Cyan);
 	printf("     Weapon: ");
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_White);
-	printf("%s", GetWeaponName(unitsData[BossIndex1].weapon));
+	printf("%s", GetWeaponName(unitsData[BossIndex3].weapon));
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Gray);
-	printf(" (Dmg: %i)               ", GetWeaponDamage(unitsData[BossIndex1].weapon));
-
-
+	printf("%i - %i", unitsData[BossIndex1].health, unitsData[BossIndex3].health + 7);
 
 	// рисование уровня
 	printf("\n\n\t");
@@ -387,10 +544,10 @@ void Render()
 		{
 			if (fogOfWar[r][c] == false)
 			{
-				 char cellSymbol = levelData[r][c];
+				char cellSymbol = levelData[r][c];
 
-		     	 char renderCellSymbol = GetRenderCellSymbol(cellSymbol);
-				 ConsoleColor cellColor = GetRenderCellSymbolColor(cellSymbol);
+				char renderCellSymbol = GetRenderCellSymbol(cellSymbol);
+				ConsoleColor cellColor = GetRenderCellSymbolColor(cellSymbol);
 
 				SetConsoleTextAttribute(consoleHandle, cellColor);
 				printf("%c", renderCellSymbol);
@@ -403,7 +560,6 @@ void Render()
 		}
 		printf("\n\t");
 	}
-	//new
 	// Fill status message with spaces
 	while (strlen(statusMessage) < 160)
 	{
@@ -411,11 +567,12 @@ void Render()
 	}
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Green);
 	printf("\n\n\t%s", statusMessage);
-
 	// Clear status message
 	statusMessage[0] = 0;
 	//end new
 }
+/*-------------------------------------END OF LEVEL 3-----------------------------------------------------------------------*/
+
 
 void MoveUnitTo(UnitData* pointerToUnitData, int row, int column)
 {
@@ -464,9 +621,8 @@ void MoveUnitTo(UnitData* pointerToUnitData, int row, int column)
 				if (unitsData[i].row == row && unitsData[i].column == column)
 				{
 					// Вычисление Урона
-					int damage = GetWeaponDamage(pointerToUnitData->weapon);
+					int damage = GetWeaponDamage(pointerToUnitData->weapon) + rand() % 7 ;
 					unitsData[i].health = unitsData[i].health - damage;
-
 
 					//----------------------------------------------------
 					// Add to status message
@@ -474,7 +630,6 @@ void MoveUnitTo(UnitData* pointerToUnitData, int row, int column)
 					strcat_s(statusMessage, tempBuffer);
 					//-----------------------------------------------------
 					
-
 					// В случае смерти
 					if (unitsData[i].health <= 0.0f)
 					{
@@ -495,13 +650,11 @@ void MoveUnitTo(UnitData* pointerToUnitData, int row, int column)
 							break;
 						}
 
-
 						//----------------------------------------------------------
 						// Add to status message
 						sprintf_s(tempBuffer, " %s died.", GetUnitName(_UnitType), damage, GetUnitName(_UnitType));
 						strcat_s(statusMessage, tempBuffer);
 						//-------------------------------------------------------------
-
 					}
 					if (unitsData[BossIndex1].health < 0.0f)
 					{
@@ -677,7 +830,7 @@ void Update()
 
 		// Restart level
 	case 'r':
-		Initialize();
+		Initialize_1();
 		break;
 	}
 
@@ -709,10 +862,10 @@ void Shutdown()
 void Level_1()
 {
 	SetupSystem();
-	Initialize();
+	Initialize_1();
 	do
 	{
-		Render();
+		Render_1();
 		Update();
 	} while (GameActive);
 	Shutdown();
@@ -725,7 +878,7 @@ void Level_2()
 	Initialize2();
 	do
 	{
-		Render();
+		Render_2();
 		Update();
 	} while (GameActive);
 	Shutdown();
@@ -738,7 +891,7 @@ void Level_3()
 	Initialize3();
 	do
 	{
-		Render();
+		Render_3();
 		Update();
 	} while (GameActive);
 	Shutdown();
