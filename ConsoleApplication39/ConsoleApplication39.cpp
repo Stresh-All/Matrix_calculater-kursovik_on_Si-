@@ -18,6 +18,7 @@ const int maxUnitsCount = 40;
 
 HANDLE consoleHandle = 0;
 bool GameActive = true;
+bool GlobalGameActive = true;
 
 char levelData[rowsCount1][columsCount1];
 bool fogOfWar[rowsCount1][columsCount1] ;
@@ -35,7 +36,90 @@ char statusMessage[256];
 
 //--------------------------------------------------------------------------------------------------------------------------
 //MENU
+int iItem = 1;
+int nLast = 5;
+BOOL bRUN = TRUE;
+void ShowMenu(int iItem)
+{
+	system("cls");
+	printf("\t***MENU***\n");
+	printf("%s1 - START GAME OF STRESH\n", iItem == 1 ? ">" : " ");
+	printf("%s2 - INFO ABOUT GAME\n", iItem == 2 ? ">" : " ");
+	printf("%s3 - INFO ABOUT DEVELEPERS\n", iItem == 3 ? ">" : " ");
+	printf("%s4 - GRATITUDE\n", iItem == 4 ? ">" : " ");
+	printf("%s5 - HZ\n", iItem == 5 ? ">" : " ");
+	printf("%s  - EXIT\n", "ESC");
+}
 
+void INFO()
+{
+	system("cls");
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_White);
+	printf("\t\t***INFO ABOUT GAME***\n\n");
+	printf("W - UP\n");
+	printf("S - DOWN, kak Svito\n");
+	printf("A - LEFT\n");
+	printf("D - RIGHT\n");
+	printf("You need to survive and find exit\n");
+	printf("But be careful, there is very strong NPC\n");
+	printf("GG WP =)\n");
+	system("pause");
+}
+
+void HZ()
+{
+	system("cls");
+	printf("#################@@####=#*#####+=@#%####===@#+####\n");
+	printf("###################@#=@@@%%=%@#%@######@#@#@#%####\n");
+	printf("##%########@%####%%%###@@@%%%%%%@#%%@-:+%=#####@#*\n");
+	printf("###*###@#=###%%%==##@%%@@@@@%@%@@@@#@=*###@@######\n");
+	printf("###%########@%%%@#@=+=@@%%@@@@@@@@@@@@#+##########\n");
+	printf("##@########@%%%%@=:--*%%@@@@@@@@@@#@@@@####%###@##\n");
+	printf("###########@@@@%%*---*+@@@@%@@##@@@##@@@=@########\n");
+	printf("##########@@@@@@=:-..-:%@@@@%@########@@#=%#######\n");
+	printf("#########@#####@*-....:*@#@##@##############@#####\n");
+	printf("###############+:------:*@########################\n");
+	printf("@=@############=+%#@%=+++=%################@==%###\n");
+	printf("###############@+=%=@%+:*%########################\n");
+	printf("############@=*::*++*::.-+==%==%@#################\n");
+	printf("####%@######:----------.-:*:::::::+%##############\n");
+	printf("#+%#########--....----...-::------:+##############\n");
+	printf("#%##########:-----:-::----:::----::=##############\n");
+	printf("############:----:--:+==%=*:::--::*###############\n");
+	printf("##@@########+::::+*****:*+*+=+::::*###############\n");
+	printf("#############+**::::-::-:*::**:***################\n");
+	printf("#####@#######@=+*::::*+++**:**++=#################\n");
+	printf("#=###@@######%+*+*:---:--::**+==%#################\n");
+	printf("#%@@@########+****+++++**++=%=++%###########@#####\n");
+	printf("#@@#####@##@%=*:::**+==%%==++**+@%###########%%###\n");
+	printf("#@###%%@@%++====*::****++++***====%###############\n");
+	printf("#@::**+++=++*=====+::*******===%===%##############\n");
+	printf(":::**:*:::+***+==+=*::::***+++===++++++******@####\n");
+	printf("::**:::::::****++*++*******===+++++++*****::::::+#\n");
+	printf(":**:::::::::******=====**====+*++**+*:::::::::::::\n");
+	printf(":::::::::::::********++**+**+==****+:::::*::::::::\n");
+	printf("::::::::::::::*::*:***++++++=+**::**::::::::::::::\n");
+	printf("::::::::::::****:::*:***++*=***::*+::::::::::*::::\n");
+	system("pause");
+}
+
+void GemDev()
+{
+	system("cls");
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_DarkRed);
+	printf("\t Developer : Alexander Stresh\n\n");
+	printf("\t Curator : Mr.Kazak \n\n");
+	printf("\t\t All rights reserved \n");
+	printf("\t\t BSUIR 2016 \n");
+	system("pause");
+}
+
+void tnx()
+{
+	system("cls");
+	printf("Thank you me =)\n");
+	system("pause");
+}
 //--------------------------------------------------------------------------------------------------------------------------
 
 void SetupSystem()
@@ -186,7 +270,7 @@ void Render_1()
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Red);
 	printf("\n\n\tHP: ");
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_White);
-	printf("%i - %i", unitsData[BossIndex1].health, unitsData[BossIndex1].health + 7);
+	printf("%i", unitsData[BossIndex1].health);
 
 	// Boss 1 weapon
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Cyan);
@@ -194,7 +278,7 @@ void Render_1()
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_White);
 	printf("%s", GetWeaponName(unitsData[BossIndex1].weapon));
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Gray);
-	printf(" (Dmg: %i)               ", GetWeaponDamage(unitsData[BossIndex1].weapon));
+	printf(" (Dmg: %i - %i)               ", GetWeaponDamage(unitsData[BossIndex1].weapon), GetWeaponDamage(unitsData[BossIndex1].weapon)+7);
 
 	// рисование уровня
 	printf("\n\n\t");
@@ -222,7 +306,7 @@ void Render_1()
 	}
 	//new
 	// Fill status message with spaces
-	while (strlen(statusMessage) < 160)
+	while (strlen(statusMessage) < 255)
 	{
 		strcat_s(statusMessage, " ");
 	}
@@ -233,10 +317,10 @@ void Render_1()
 	statusMessage[0] = 0;
 	//end new
 }
-/*-----------------------------------------------END OF LEVEL 1--------------------------------------------------------------*/
+/*-----------------------------------------------END OF LEVEL 1------------------------------------------------------------------*/
 
 
-/*-------------------------------------------LEVEL 2 ------------------------------------------------------------------------*/
+/*-------------------------------------------LEVEL 2 ----------------------------------------------------------------------------*/
 void Initialize2()
 {
 	unitsCount = 0;
@@ -365,7 +449,7 @@ void Render_2()
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_White);
 	printf("%s", GetWeaponName(unitsData[BossIndex2].weapon));
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Gray);
-	printf("%i - %i", unitsData[BossIndex1].health, unitsData[BossIndex2].health + 7);
+	printf("%i - %i", unitsData[BossIndex2].weapon, unitsData[BossIndex2].weapon + 7);
 
 	// рисование уровня
 	printf("\n\n\t");
@@ -404,10 +488,10 @@ void Render_2()
 	statusMessage[0] = 0;
 	//end new
 }
-/*------------------------------END OF LEVEL 2-------------------------------------------------------------------------------*/
+/*------------------------------END OF LEVEL 2------------------------------------------------------------------------------------*/
 
 
-/*-------------------------------------------LEVEL 3-------------------------------------------------------------------------*/
+/*-------------------------------------------LEVEL 3------------------------------------------------------------------------------*/
 void Initialize3()
 {
 	unitsCount = 0;
@@ -528,13 +612,13 @@ void Render_3()
 	printf("%i", unitsData[BossIndex3].health);
 
 
-	// Boss 2 weapon
+	// Boss 3 weapon
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Cyan);
 	printf("     Weapon: ");
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_White);
 	printf("%s", GetWeaponName(unitsData[BossIndex3].weapon));
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Gray);
-	printf("%i - %i", unitsData[BossIndex1].health, unitsData[BossIndex3].health + 7);
+	printf("%i - %i", unitsData[BossIndex3].weapon, unitsData[BossIndex3].weapon + 7);
 
 	// рисование уровня
 	printf("\n\n\t");
@@ -561,7 +645,7 @@ void Render_3()
 		printf("\n\t");
 	}
 	// Fill status message with spaces
-	while (strlen(statusMessage) < 160)
+	while (strlen(statusMessage) < 255)
 	{
 		strcat_s(statusMessage, " ");
 	}
@@ -571,7 +655,7 @@ void Render_3()
 	statusMessage[0] = 0;
 	//end new
 }
-/*-------------------------------------END OF LEVEL 3-----------------------------------------------------------------------*/
+/*-------------------------------------END OF LEVEL 3------------------------------------------------------------------------------*/
 
 
 void MoveUnitTo(UnitData* pointerToUnitData, int row, int column)
@@ -657,23 +741,19 @@ void MoveUnitTo(UnitData* pointerToUnitData, int row, int column)
 						//-------------------------------------------------------------
 					}
 					if (unitsData[BossIndex1].health < 0.0f)
-					{
-						levelData[row][column] = SymbolMMA;
+					{		
 						unitsData[BossIndex1].health = 0;
 					}
 					if (unitsData[BossIndex2].health < 0.0f)
-					{
-						levelData[row][column] = SymbolWorkBook;
+					{					
 						unitsData[BossIndex2].health = 0;
 					}
 					if (unitsData[BossIndex3].health < 0.0f)
-					{
-						levelData[row][column] = SymbolCi;
+					{						
 						unitsData[BossIndex3].health = 0;
 					}
 					if (unitsData[BossIndex4].health < 0.0f)
 					{
-						levelData[row][column] = SymbolS;
 						unitsData[BossIndex4].health = 0;
 					}
 					break;
@@ -840,6 +920,7 @@ void Update()
 	if (unitsData[HeroIndex].health <= 0)
 	{
 		GameActive = false;
+		GlobalGameActive = false;
 	}
 	else
 	{
@@ -852,15 +933,28 @@ void Update()
 
 }
 
-void Shutdown()
+void Shutdown_win()
 {
 	system("cls");
-	printf("\n\tGame over...");
-	_getch();
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Green);
+	printf("\n\tYou Win...maybe...");
+	system("pause");
+	return;
+}
+
+void Shutdown_died()
+{
+	system("cls");
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Red);
+	printf("\n\t...You DIED...");
+	system("pause");
+	system("cls");
 }
 
 void Level_1()
 {
+	GameActive = true;
+	GlobalGameActive = true;
 	SetupSystem();
 	Initialize_1();
 	do
@@ -868,11 +962,13 @@ void Level_1()
 		Render_1();
 		Update();
 	} while (GameActive);
-	Shutdown();
+	system("cls");
+	system("pause");
 }
 
 void Level_2()
 {
+	system("cls");
 	GameActive = true;
 	SetupSystem();
 	Initialize2();
@@ -881,11 +977,13 @@ void Level_2()
 		Render_2();
 		Update();
 	} while (GameActive);
-	Shutdown();
+	system("cls");
+	system("pause");
 }
 
 void Level_3()
 {
+	system("cls");
 	GameActive = true;
 	SetupSystem();
 	Initialize3();
@@ -894,21 +992,86 @@ void Level_3()
 		Render_3();
 		Update();
 	} while (GameActive);
-	Shutdown();
+	system("cls");
+	system("pause");
 }
 
-/*---------------------------------MAIN----------------------------------------------------------------------------------*/
+void menu()
+{
+	while (bRUN)
+	{
+		ShowMenu(iItem);
+		if (GetAsyncKeyState(VK_UP))
+			if (GetAsyncKeyState(VK_UP))
+			{
+				if (0 < iItem - 1)
+					iItem = iItem - 1;
+				else
+					iItem = nLast;
+				ShowMenu(iItem);
+			}
+		if (GetAsyncKeyState(VK_DOWN))
+			if (GetAsyncKeyState(VK_DOWN))
+			{
+				if (iItem < nLast)
+					iItem = iItem + 1;
+				else
+					iItem = 1;
+				ShowMenu(iItem);
+			}
+		if (GetAsyncKeyState(VK_RETURN))
+			if (GetAsyncKeyState(VK_RETURN))
+			{
+				ShowMenu(iItem);
+
+				switch (iItem)
+				{
+
+				case 1:
+					system("cls");
+					Level_1();
+					if (GlobalGameActive == false) Shutdown_died();
+						
+					/*--------------------------------------Level 2---------------------------------------------------------------------------------*/
+					else {
+						Level_2();
+						if (GlobalGameActive == false) Shutdown_died();
+						else {
+							/*----------------------------------Level 3---------------------------------------------------------------------------------------*/
+							Level_3();
+							if (GlobalGameActive == false) Shutdown_died();
+							else Shutdown_win();
+						}
+					}
+					break;
+
+				case 2:
+					INFO();
+					break;
+
+				case 3:
+					GemDev();
+					break;
+
+				case 4:
+					tnx();
+					break;
+
+				case 5:
+					HZ();
+					break;
+				}
+			}
+		if (GetAsyncKeyState(VK_ESCAPE))
+			bRUN = FALSE;
+		Sleep(100);
+	}
+}
+
+/*---------------------------------MAIN----------------------------------------------------------------------------------------------*/
 int main()
 {
-	Level_1();
-
-/*--------------------------------------Level 2-------------------------------------------------------------------------*/
+	menu();
 	
-	Level_2();
-
-/*--------------------Level 3---------------------------------------------------------------------------------------*/
-
-	Level_3();
-
 	return 0;
 }
