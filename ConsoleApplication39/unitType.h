@@ -1,5 +1,4 @@
 #pragma once
-
 #include "level.h"
 #include "weaponType.h"
 
@@ -9,7 +8,6 @@ enum UnitType
 	UnitHero,
 	UnitOrc,
 	UnitSkeleton,
-	//Update
 	UnitGlee,
 	UnitT,
 	UnitB,
@@ -21,7 +19,6 @@ const char* UnitName_None = "None";
 const char* UnitName_Hero = "Stresh";
 const char* UnitName_Orc = "Orc";
 const char* UnitName_Skeleton = "Skeleton";
-//update
 const char* UnitName_Glee = "Slabka";
 const char* UnitName_T = "Tesla";
 const char* UnitName_B = "WoRoNa";
@@ -35,7 +32,6 @@ const char* GetUnitName(UnitType unitType)
 	case UnitHero:     return UnitName_Hero;
 	case UnitOrc:      return UnitName_Orc;
 	case UnitSkeleton: return UnitName_Skeleton;
-		//Update
 	case UnitGlee:     return UnitName_Glee;
 	case UnitT:        return UnitName_T;
 	case UnitB:        return UnitName_B;
@@ -53,7 +49,6 @@ WeaponType GetUnitDefaultWeapon(UnitType unitType)
 	case UnitHero:             return WeaponFist;
 	case UnitOrc:              return WeaponClub;
 	case UnitSkeleton:         return WeaponSaber;
-		//Update
 	case UnitGlee:             return WeaponFalx;
 	case UnitT:                return WeaponMMA;
 	case UnitB:                return WeaponWorkBook;
@@ -71,7 +66,6 @@ int GetUnitDefaultHealth(UnitType unitType)
 	case UnitHero:         return 500;
 	case UnitOrc:          return 60;
 	case UnitSkeleton:     return 80;
-		//Update
 	case UnitGlee:         return 100;
 	case UnitT:            return 300;
 	case UnitB:            return 400;
@@ -89,7 +83,6 @@ UnitType GetUnitTypeFromCell(unsigned char cellSymbol)
 	case SymbolHero:               return UnitHero;
 	case SymbolOrc:                return UnitOrc;
 	case SymbolSkeleton:           return UnitSkeleton;
-		//update
 	case SymbolGlee:               return UnitGlee;
 	case SymbolBoos1:              return UnitT;
 	case SymbolBoos2:              return UnitB;

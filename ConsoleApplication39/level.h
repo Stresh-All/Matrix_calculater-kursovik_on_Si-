@@ -4,9 +4,6 @@
 const int rowsCount1 = 15;
 const int columsCount1 = 49;
 
-const  int rowsCount2 = 24;
-const  int columsCount2 = 27;
-
 const int heartHeal = 150;
 
 const char fogOfWarRenderSymbol = 176;
@@ -23,8 +20,6 @@ const char SymbolClub = '2';
 const char SymbolSpear = '3';
 const char SymbolSaber = '4';
 const char SymbolHeart = '+';
-
-//планируется
 const char SymbolSword = '5';
 const char SymbolWhip = '6';
 const char SymbolMoustache = '7';
@@ -34,13 +29,10 @@ const char SymbolBoos3 = 'K';
 const char SymbolBoos4 = 'S';
 const char SymbolFalx = '8';
 const char SymbolGlee = '*';
-
-//Wepon for Boss
-//..
-const char SymbolMMA = 'm';//131
-const char SymbolWorkBook = 'v';//8
-const char SymbolCi = 'c';//123
-const char SymbolS = 'i';//138
+const char SymbolMMA = 'm';
+const char SymbolWorkBook = 'v';
+const char SymbolCi = 'c';
+const char SymbolS = 'i';
 
 
 
@@ -50,7 +42,7 @@ const char levelData1[rowsCount1][columsCount1 + 1] = {
 	"# # o  #o############## ######### #           # #",
 	"# ###### #   #+#3  s  # ##s##   # # ########### #",
 	"#  s       # # ###### # #s4   #s# #           # #",
-	"###### # ### #      # # ##s##   # ########### # #",
+	"###### # ### #      # # ##s##   # ###########+# #",
 	"##  o# # # # #### # #   ##### # # #           # #",
 	"#+ #   # # o    # ##+######+#   # #           # #",
 	"######## # ####         #  s# # #s#     T     # #",
@@ -58,35 +50,8 @@ const char levelData1[rowsCount1][columsCount1 + 1] = {
 	"# ### #### ######   o   # #   #   #           # #",
 	"#  o       #      ####### #########           # #",
 	"############ ######   #1# #   #  5#           # #",
-	"#h                                +           # #",
+	"#h                      #         +           # #",
 	"###############################################e#",
-};
-
-const char levelData2 [rowsCount2][columsCount2 + 1] = {
-	"#e##################",
-	"# #  # #   ####    #",
-	"# ## # # #    # ## #",
-	"#      # #### #  # #",
-	"###### # #  # ## # #",
-	"#  #     ##      # #",
-	"# ## #####  # #### #",
-	"#        #### #    #",
-	"###### ###    # ####",
-	"##   #  ## ####    #",
-	"#  #     #    #### #",
-	"############# #    #",
-	"#             # ####",
-	"# ## ##########    #",
-	"# #   #   #     ## #",
-	"# ## ## # ### #    #",
-	"# #   # #   ########",
-	"# # # # # #        #",
-	"# # # # # ######## #",
-	"# # # # #          #",
-	"# # #   # ###### # #",
-	"# # #####   # #  # #",
-	"#h#     ###   # ## #",
-	"####################",
 };
 
 const char levelData3[rowsCount1][columsCount1 + 1] = {
@@ -109,19 +74,19 @@ const char levelData3[rowsCount1][columsCount1 + 1] = {
 
 const char levelData4[rowsCount1][columsCount1 + 1] = {
 	"#e#################################",
-	"#                                 #",
+	"#       7                         #",
 	"################################# #",
-	"#                              +#7#",
-	"#7                          K     #",
+	"#                              +# #",
+	"#       s            o      K     #",
 	"# #################################",
-	"# #              6             +  #",
+	"# #    s         6             +  #",
 	"# # ############################  #",
 	"# # #           +#                #",
-	"# # #            #                #",
+	"# # #     *      #  s             #",
 	"#   # ############                #",
-	"#####            #                #",
-	"#                #                #",
-	"#h             7                  #",
+	"#####            #            *   #",
+	"#                #      s         #",
+	"#h 5           o                  #",
 	"###################################",
 };
 
@@ -140,9 +105,6 @@ unsigned char GetRenderCellSymbol(unsigned char cellSymbol)
 	case SymbolSaber:          return 108;
 	case SymbolExit:           return 178;
 	case SymbolHeart:          return 3;
-
-	//Обновление
-	
 	case SymbolSword:          return 134;
 	case SymbolWhip:           return 244;
 	case SymbolMoustache:      return 236;
@@ -155,7 +117,7 @@ unsigned char GetRenderCellSymbol(unsigned char cellSymbol)
 	case SymbolWorkBook:       return 176;
 	case SymbolCi:             return 123;
 	case SymbolS:              return 138;
-	case SymbolGlee:           return 176;//моб
+	case SymbolGlee:           return 176;
 	}
 
 	return '0';
@@ -176,8 +138,6 @@ ConsoleColor GetRenderCellSymbolColor(unsigned char cellSymbol)
 	case SymbolSaber:          return ConsoleColor_Cyan;
 	case SymbolExit:           return ConsoleColor_DarkRed;
 	case SymbolHeart:          return ConsoleColor_Red;
-
-		//Обновление 
 	case SymbolSword:          return ConsoleColor_DarkRed;
 	case SymbolWhip:           return ConsoleColor_Blue;
 	case SymbolMoustache:      return ConsoleColor_Black;
@@ -186,7 +146,7 @@ ConsoleColor GetRenderCellSymbolColor(unsigned char cellSymbol)
 	case SymbolBoos2:          return ConsoleColor_DarkCyan;
 	case SymbolBoos3:          return ConsoleColor_DarkGreen;
 	case SymbolBoos4:          return ConsoleColor_Red;
-	case SymbolGlee:           return ConsoleColor_DarkGreen;//моб
+	case SymbolGlee:           return ConsoleColor_DarkGreen;
 	case SymbolMMA:            return ConsoleColor_DarkGreen;
 	case SymbolCi:             return ConsoleColor_DarkYellow;
 	case SymbolWorkBook:       return ConsoleColor_Blue;

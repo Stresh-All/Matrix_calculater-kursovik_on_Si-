@@ -1,6 +1,5 @@
 #pragma once
 
-
 enum ConsoleColor
 {
 	ConsoleColor_Black = 0,

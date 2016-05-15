@@ -34,21 +34,23 @@ int BossIndex4 = 0;
 char tempBuffer[256];
 char statusMessage[256];
 
-//--------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------
 //MENU
 int iItem = 1;
 int nLast = 5;
 BOOL bRUN = TRUE;
+
 void ShowMenu(int iItem)
 {
 	system("cls");
-	printf("\t***MENU***\n");
-	printf("%s1 - START GAME OF STRESH\n", iItem == 1 ? ">" : " ");
-	printf("%s2 - INFO ABOUT GAME\n", iItem == 2 ? ">" : " ");
-	printf("%s3 - INFO ABOUT DEVELEPERS\n", iItem == 3 ? ">" : " ");
-	printf("%s4 - GRATITUDE\n", iItem == 4 ? ">" : " ");
-	printf("%s5 - HZ\n", iItem == 5 ? ">" : " ");
-	printf("%s  - EXIT\n", "ESC");
+	SetConsoleTextAttribute(consoleHandle, ConsoleColor_White);
+	printf("\n\n\n\n\n\n\t\t***MENU***\n");
+	printf("\t\t%s1 - START GAME OF STRESH\n", iItem == 1 ? ">" : " ");
+	printf("\t\t%s2 - INFO ABOUT GAME\n", iItem == 2 ? ">" : " ");
+	printf("\t\t%s3 - INFO ABOUT DEVELEPERS\n", iItem == 3 ? ">" : " ");
+	printf("\t\t%s4 - GRATITUDE\n", iItem == 4 ? ">" : " ");
+	printf("\t\t%s5 - HZ\n", iItem == 5 ? ">" : " ");
+	printf("\t\t%s  - EXIT\n", "ESC");
 }
 
 void INFO()
@@ -107,10 +109,10 @@ void GemDev()
 {
 	system("cls");
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_DarkRed);
-	printf("\t Developer : Alexander Stresh\n\n");
-	printf("\t Curator : Mr.Kazak \n\n");
-	printf("\t\t All rights reserved \n");
-	printf("\t\t BSUIR 2016 \n");
+	printf("\n\n\n\n\n\n\t\t Developer : Alexander Stresh\n\n");
+	printf("\t\t Curator : Mr.Kazak \n\n");
+	printf("\t\t\t All rights reserved \n");
+	printf("\t\t\t BSUIR 2016 \n");
 	system("pause");
 }
 
@@ -120,11 +122,9 @@ void tnx()
 	printf("Thank you me =)\n");
 	system("pause");
 }
-//--------------------------------------------------------------------------------------------------------------------------
 
 void SetupSystem()
 {
-	//new
 	statusMessage[0] = 0;
 
 	srand(time(0));
@@ -148,7 +148,6 @@ void RevealFogOfWar(int row, int column)
 		}
 	}
 }
-
 
 /*------------------------------------------------------LEVEL 1---------------------------------------------------------------*/
 void Initialize_1()
@@ -318,7 +317,6 @@ void Render_1()
 	//end new
 }
 /*-----------------------------------------------END OF LEVEL 1------------------------------------------------------------------*/
-
 
 /*-------------------------------------------LEVEL 2 ----------------------------------------------------------------------------*/
 void Initialize2()
@@ -490,7 +488,6 @@ void Render_2()
 }
 /*------------------------------END OF LEVEL 2------------------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------LEVEL 3------------------------------------------------------------------------------*/
 void Initialize3()
 {
@@ -656,7 +653,6 @@ void Render_3()
 	//end new
 }
 /*-------------------------------------END OF LEVEL 3------------------------------------------------------------------------------*/
-
 
 void MoveUnitTo(UnitData* pointerToUnitData, int row, int column)
 {
@@ -908,10 +904,6 @@ void Update()
 		MoveUnitTo(&unitsData[HeroIndex], unitsData[HeroIndex].row, unitsData[HeroIndex].column + 1);
 		break;
 
-		// Restart level
-	case 'r':
-		Initialize_1();
-		break;
 	}
 
 	UpdateNPC();
@@ -937,7 +929,7 @@ void Shutdown_win()
 {
 	system("cls");
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Green);
-	printf("\n\tYou Win...maybe...");
+	printf("\n\n\n\n\n\n\t\tYou Win...maybe...\n");
 	system("pause");
 	return;
 }
@@ -946,7 +938,7 @@ void Shutdown_died()
 {
 	system("cls");
 	SetConsoleTextAttribute(consoleHandle, ConsoleColor_Red);
-	printf("\n\t...You DIED...");
+	printf("\n\n\n\n\n\n\t\t...You DIED...\n");
 	system("pause");
 	system("cls");
 }
